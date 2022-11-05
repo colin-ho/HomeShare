@@ -22,4 +22,10 @@
         android:name="com.example.homeshare.ui.notifications.NotificationsFragment"
         android:label="@string/title_notifications"
         tools:layout="@layout/fragment_notifications" />
+
+    <fragment
+        android:id="@+id/navigation_createInvitation"
+        android:name="com.example.homeshare.ui.createInvitation.CreateInvitationFragment"
+        android:label="@string/title_create_invitation"
+        tools:layout="@layout/fragment_create_invitation" />
 </navigation>

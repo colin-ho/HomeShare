@@ -12,8 +12,9 @@ public class Invitation {
     private Number price;
     private String open;
     private String[] utilities;
+    private String description;
 
-    public Invitation(Timestamp deadline, Number creatorUserID, Number invitationID, String location, Number noOfBeds, Number price, String open, String[] utilities) {
+    public Invitation(Timestamp deadline, Number creatorUserID, Number invitationID, String description, String location, Number noOfBeds, Number price, String open, String[] utilities) {
         this.deadline = deadline;
         this.creatorUserID = creatorUserID;
         this.invitationID = invitationID;
@@ -22,6 +23,15 @@ public class Invitation {
         this.price = price;
         this.open = open;
         this.utilities = utilities;
+        this.description  = description;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public Timestamp getDeadline() {

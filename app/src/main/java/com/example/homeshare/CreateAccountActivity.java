@@ -32,6 +32,7 @@ import com.google.firebase.storage.UploadTask;
 import java.net.URI;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 public class CreateAccountActivity extends AppCompatActivity {
 
@@ -107,7 +108,8 @@ public class CreateAccountActivity extends AppCompatActivity {
     }
 
     private void uploadImageToFireBase(Uri imageUri) {
-        StorageReference fileRef = storageReference.child("profile.jpg");
+        final String randomKey = UUID.randomUUID().toString();
+        StorageReference fileRef = storageReference.child("images/"+randomKey);
         fileRef.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {

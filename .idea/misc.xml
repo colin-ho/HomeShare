@@ -29,6 +29,8 @@
         <entry key="app/src/main/res/layout/fragment_notifications.xml" value="0.10190217391304347" />
         <entry key="app/src/main/res/layout/fragment_profile.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_responses.xml" value="0.15476190476190477" />
+        <entry key="app/src/main/res/layout/invitation.xml" value="0.10190217391304347" />
+        <entry key="app/src/main/res/layout/item_invitation.xml" value="0.2248498667841372" />
         <entry key="app/src/main/res/layout/login.xml" value="0.18305053710937502" />
         <entry key="app/src/main/res/layout/profile_page.xml" value="0.10190217391304347" />
         <entry key="app/src/main/res/menu/bottom_nav_menu.xml" value="0.1" />

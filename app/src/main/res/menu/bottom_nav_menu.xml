@@ -8,7 +8,7 @@
 
     <item
         android:id="@+id/navigation_responses"
-        android:icon="@drawable/ic_baseline_thumbs_up_down_24"
+        android:icon="@drawable/ic_baseline_account_box_24"
         android:title="@string/title_responses" />
 
     <item

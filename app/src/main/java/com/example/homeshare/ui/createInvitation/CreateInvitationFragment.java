@@ -76,6 +76,9 @@ public class CreateInvitationFragment extends Fragment {
                 invitation.put("price", price.getText().toString());
                 invitation.put("beds", beds.getText().toString());
 
+                //need to fix
+                invitation.put("name","Colin");
+
                 Map<String, Object> utilities = new HashMap<>();
                 utilities.put("gas", gas.isChecked());
                 utilities.put("wifi", wifi.isChecked());

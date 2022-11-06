@@ -10,13 +10,16 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.Navigation;
+import androidx.navigation.fragment.NavHostFragment;
 
+import com.example.homeshare.CreateAccountActivity;
 import com.example.homeshare.HomeActivity;
-import com.example.homeshare.LoginActivity;
 import com.example.homeshare.R;
 import com.example.homeshare.databinding.FragmentCreateInvitationBinding;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -38,8 +41,8 @@ public class CreateInvitationFragment extends Fragment {
         binding = FragmentCreateInvitationBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        final TextView textView = binding.textCreateInvitations;
-        createInvitationViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
+        // final TextView textView = binding.textCreateInvitations;
+        // createInvitationViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
 
         return root;
     }
@@ -72,24 +75,31 @@ public class CreateInvitationFragment extends Fragment {
                 invitation.put("year", year.getText().toString());
                 invitation.put("price", price.getText().toString());
                 invitation.put("beds", beds.getText().toString());
-                invitation.put("gas", gas.isChecked());
-                invitation.put("wifi", wifi.isChecked());
-                invitation.put("water", water.isChecked());
-                invitation.put("electricity", electricity.isChecked());
 
+                Map<String, Object> utilities = new HashMap<>();
+                utilities.put("gas", gas.isChecked());
+                utilities.put("wifi", wifi.isChecked());
+                utilities.put("water", water.isChecked());
+                utilities.put("electricity", electricity.isChecked());
+                invitation.put("utilities",utilities);
+
+                invitation.put("creatorUserID",((HomeActivity)getActivity()).getmAuth().getCurrentUser().getUid());
                 // Add a new document with a generated ID
-                ((HomeActivity)getActivity()).db.collection("Invitation")
+                ((HomeActivity)getActivity()).getDb().collection("Invitation")
                         .add(invitation)
                         .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                             @Override
                             public void onSuccess(DocumentReference documentReference) {
                                 Log.d("Create Invitation", "DocumentSnapshot added with ID: " + documentReference.getId());
+                                Navigation.findNavController(view).navigate(R.id.navigation_home);
                             }
                         })
                         .addOnFailureListener(new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception e) {
                                 Log.w("Create Invitation", "Error adding document", e);
+                                Toast.makeText(getActivity(), "Error creating invitation",
+                                        Toast.LENGTH_LONG).show();
                             }
                         });
             }

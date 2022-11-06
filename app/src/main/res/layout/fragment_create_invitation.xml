@@ -6,20 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".ui.createInvitation.CreateInvitationFragment">
 
-    <TextView
-        android:id="@+id/text_create_invitations"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:textAlignment="center"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <EditText
         android:id="@+id/createInvitationLocation"
         android:layout_width="wrap_content"
@@ -27,7 +13,7 @@
         android:layout_marginTop="-20dp"
         android:ems="10"
         android:inputType="text"
-        android:text="Location"
+        android:hint="Location"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
@@ -40,7 +26,7 @@
         android:layout_marginTop="56dp"
         android:ems="10"
         android:inputType="text"
-        android:text="Description"
+        android:hint="Description"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
@@ -53,7 +39,7 @@
         android:layout_marginTop="160dp"
         android:ems="10"
         android:inputType="text"
-        android:text="Price"
+        android:hint="Price"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
@@ -66,7 +52,7 @@
         android:layout_marginTop="204dp"
         android:ems="10"
         android:inputType="text"
-        android:text="Number of Beds"
+        android:hint="Number of Beds"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
@@ -131,7 +117,7 @@
             android:layout_marginLeft="70dp"
             android:ems="10"
             android:inputType="textPersonName"
-            android:text="Day" />
+            android:hint="Day" />
 
         <EditText
             android:id="@+id/createInvitationMonth"
@@ -140,7 +126,7 @@
             android:layout_marginLeft="60dp"
             android:ems="10"
             android:inputType="textPersonName"
-            android:text="Month" />
+            android:hint="Month" />
 
         <EditText
             android:id="@+id/createInvitationYear"
@@ -149,7 +135,7 @@
             android:layout_marginLeft="60dp"
             android:ems="10"
             android:inputType="textPersonName"
-            android:text="Year" />
+            android:hint="Year" />
     </LinearLayout>
 
     <Button

@@ -1,4 +1,4 @@
-package com.example.homeshare.ui.dashboard;
+package com.example.homeshare.ui.responses;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -10,22 +10,22 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.example.homeshare.databinding.FragmentDashboardBinding;
+import com.example.homeshare.databinding.FragmentResponsesBinding;
 
-public class DashboardFragment extends Fragment {
+public class ResponsesFragment extends Fragment {
 
-    private FragmentDashboardBinding binding;
+    private FragmentResponsesBinding binding;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        DashboardViewModel dashboardViewModel =
-                new ViewModelProvider(this).get(DashboardViewModel.class);
+        ResponsesViewModel responsesViewModel =
+                new ViewModelProvider(this).get(ResponsesViewModel.class);
 
-        binding = FragmentDashboardBinding.inflate(inflater, container, false);
+        binding = FragmentResponsesBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        final TextView textView = binding.textDashboard;
-        dashboardViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
+        final TextView textView = binding.textResponses;
+        responsesViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
         return root;
     }
 

@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="400dp"
     tools:context=".ui.profile.ProfileFragment">
 
     <ScrollView
@@ -44,7 +44,7 @@
                         />
                 </androidx.cardview.widget.CardView>
 
-                <TextView
+                <EditText
                     android:id="@+id/personName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -92,7 +92,7 @@
                     android:layout_width="45dp"
                     android:layout_height="45dp"
                     android:src="@drawable/phone"/>
-                <TextView
+                <EditText
                     android:id="@+id/phoneNumber"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -118,7 +118,7 @@
                 android:layout_height="45dp"
                 android:src="@drawable/person" />
 
-            <TextView
+            <EditText
                 android:id="@+id/description"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -131,6 +131,7 @@
         </LinearLayout>
 
         <Button
+            android:id="@+id/updateProfile"
             android:layout_width="300dp"
             android:layout_height="45dp"
             android:layout_gravity="center"
@@ -138,6 +139,10 @@
             android:backgroundTint="#AB0707"
             android:text="Update Profile"
             android:textColor="@color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.493"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             ></Button>
 
 

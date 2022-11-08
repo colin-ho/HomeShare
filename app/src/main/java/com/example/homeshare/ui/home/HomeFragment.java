@@ -6,35 +6,48 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.homeshare.HomeActivity;
+import com.example.homeshare.Model.Invitation;
 import com.example.homeshare.R;
+import com.example.homeshare.adapters.InvitationsAdapter;
 import com.example.homeshare.databinding.FragmentHomeBinding;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
-public class HomeFragment extends Fragment {
+import java.util.ArrayList;
 
-    private FragmentHomeBinding binding;
+public class HomeFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        HomeViewModel homeViewModel =
-                new ViewModelProvider(this).get(HomeViewModel.class);
 
-        binding = FragmentHomeBinding.inflate(inflater, container, false);
-        View root = binding.getRoot();
+        View view = inflater.inflate(R.layout.fragment_home, container, false);
 
-        // final TextView textView = binding.textHome;
-        // homeViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
+        RecyclerView recyclerView = view.findViewById(R.id.feedRecyclerView);
+        InvitationsAdapter adapter = new InvitationsAdapter(getContext()
+                ,((HomeActivity)getActivity()).getDb(),((HomeActivity)getActivity()).getmAuth());
+        recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        showInvitationsFromFirebase(adapter);
+
+        return view;
+    }
+
+    public void showInvitationsFromFirebase(InvitationsAdapter adapter){
+        ArrayList<Invitation> invitations = new ArrayList<>();
 
         ((HomeActivity)getActivity()).getDb().collection("Invitation")
                 .get()
@@ -44,29 +57,20 @@ public class HomeFragment extends Fragment {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 Log.d("Get Invitations", document.getId() + " => " + document.getData());
-
-                                ConstraintLayout layout = (ConstraintLayout) inflater.inflate(R.layout.item_invitation, null, false);
-
-                                ((TextView) layout.findViewById(R.id.invitationItemLocation)).setText("Location: "+document.getData().get("location").toString());
-                                ((TextView) layout.findViewById(R.id.invitationItemPrice)).setText("Price: "+document.getData().get("price").toString());
-                                ((TextView) layout.findViewById(R.id.invitationItemDescription)).setText("Description: "+document.getData().get("description").toString());
-                                ((TextView) layout.findViewById(R.id.invitationItemName)).setText("Name: "+document.getData().get("name").toString());
-                                ((TextView) layout.findViewById(R.id.invitationItemDeadline)).setText("Deadline: "+document.getData().get("day").toString()+"/"+document.getData().get("month").toString()+"/"+document.getData().get("year").toString());
-
-                                LinearLayout linear = (LinearLayout) getActivity().findViewById(R.id.feed);
-                                linear.addView(layout);
+                                Invitation invitation = document.toObject(Invitation.class);
+                                invitation.setInvitationID(document.getId());
+                                invitations.add(invitation);
                             }
+                            adapter.setInvitations(invitations);
                         } else {
                             Log.d("Get Invitations", "Error getting documents: ", task.getException());
                         }
                     }
                 });
-        return root;
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        binding = null;
     }
 }

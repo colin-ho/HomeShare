@@ -1,21 +1,35 @@
 package com.example.homeshare.Model;
 
+import java.util.ArrayList;
+
 public class User {
 
     private String fullName;
     private String contactNumber;
     private String about;
-    private Number userId;
     private String profilePic;
-    private String[] rejectedInvitations;
+    private ArrayList<String> rejectedInvitations;
+    private ArrayList<String> acceptedInvitations;
 
-    public User(String fullName, String contactNumber, String about, Number userId, String profilePic, String[] rejectedInvitations) {
+    public User(String fullName, String contactNumber, String about, String profilePic, ArrayList<String> rejectedInvitations,ArrayList<String> acceptedInvitations) {
         this.fullName = fullName;
         this.contactNumber = contactNumber;
         this.about = about;
-        this.userId = userId;
         this.profilePic = profilePic;
         this.rejectedInvitations = rejectedInvitations;
+        this.acceptedInvitations = acceptedInvitations;
+    }
+
+    public User(){
+
+    }
+
+    public ArrayList<String> getAcceptedInvitations() {
+        return acceptedInvitations;
+    }
+
+    public void setAcceptedInvitations(ArrayList<String> acceptedInvitations) {
+        this.acceptedInvitations = acceptedInvitations;
     }
 
     public String getFullName() {
@@ -42,14 +56,6 @@ public class User {
         this.about = about;
     }
 
-    public Number getUserId() {
-        return userId;
-    }
-
-    public void setUserId(int userId) {
-        this.userId = userId;
-    }
-
     public String getProfilePic() {
         return profilePic;
     }
@@ -58,11 +64,23 @@ public class User {
         this.profilePic = profilePic;
     }
 
-    public String[] getRejectedInvitations() {
+    public ArrayList<String> getRejectedInvitations() {
         return rejectedInvitations;
     }
 
-    public void setRejectedInvitations(String[] rejectedInvitations) {
+    public void setRejectedInvitations(ArrayList<String> rejectedInvitations) {
         this.rejectedInvitations = rejectedInvitations;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "fullName='" + fullName + '\'' +
+                ", contactNumber='" + contactNumber + '\'' +
+                ", about='" + about + '\'' +
+                ", profilePic='" + profilePic + '\'' +
+                ", rejectedInvitations=" + rejectedInvitations +
+                ", acceptedInvitations=" + acceptedInvitations +
+                '}';
     }
 }

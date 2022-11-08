@@ -6,20 +6,39 @@ public class Response {
 
     private String responseMessage;
     private Timestamp date;
-    private Number creatorID;
-    private Number invitationID;
+    private String invitationID;
     private Boolean isAccepted;
-    private Number responderUserID;
-    private Number responseID;
+    private String responderUserID;
+    private String responderName;
+    private String invitationCreatorUserID;
 
-    public Response(String responseMessage, Timestamp date, Number creatorID, Number invitationID, Boolean isAccepted, Number responderUserID, Number responseID) {
+    public Response(){
+
+    }
+    public Response(String responseMessage, Timestamp date, String invitationID, Boolean isAccepted, String responderUserID, String responderName,String invitationCreatorUserID) {
         this.responseMessage = responseMessage;
         this.date = date;
-        this.creatorID = creatorID;
         this.invitationID = invitationID;
         this.isAccepted = isAccepted;
         this.responderUserID = responderUserID;
-        this.responseID = responseID;
+        this.responderName = responderName;
+        this.invitationCreatorUserID = invitationCreatorUserID;
+    }
+
+    public String getInvitationCreatorUserID() {
+        return invitationCreatorUserID;
+    }
+
+    public void setInvitationCreatorUserID(String invitationCreatorUserID) {
+        this.invitationCreatorUserID = invitationCreatorUserID;
+    }
+
+    public String getResponderName() {
+        return responderName;
+    }
+
+    public void setResponderName(String responderName) {
+        this.responderName = responderName;
     }
 
     public String getResponseMessage() {
@@ -38,19 +57,11 @@ public class Response {
         this.date = date;
     }
 
-    public Number getCreatorID() {
-        return creatorID;
-    }
-
-    public void setCreatorID(Number creatorID) {
-        this.creatorID = creatorID;
-    }
-
-    public Number getInvitationID() {
+    public String getInvitationID() {
         return invitationID;
     }
 
-    public void setInvitationID(Number invitationID) {
+    public void setInvitationID(String invitationID) {
         this.invitationID = invitationID;
     }
 
@@ -62,19 +73,11 @@ public class Response {
         isAccepted = accepted;
     }
 
-    public Number getResponderUserID() {
+    public String getResponderUserID() {
         return responderUserID;
     }
 
-    public void setResponderUserID(Number responderUserID) {
+    public void setResponderUserID(String responderUserID) {
         this.responderUserID = responderUserID;
-    }
-
-    public Number getResponseID() {
-        return responseID;
-    }
-
-    public void setResponseID(Number responseID) {
-        this.responseID = responseID;
     }
 }

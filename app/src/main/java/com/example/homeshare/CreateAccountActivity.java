@@ -16,6 +16,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.example.homeshare.Model.User;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -23,6 +24,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
@@ -30,6 +32,7 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -143,20 +146,28 @@ public class CreateAccountActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             // Log.d(TAG, "createUserWithEmail:success");
                             Intent intent = new Intent(getApplicationContext(),HomeActivity.class);
-                            userID = mAuth.getCurrentUser().getUid();
-                            DocumentReference documentReference = mStore.collection("UsersTest").document(userID);
-                            Map<String,Object> user = new HashMap<>();
-                            user.put("email",email);
-                            user.put("fName",fullname);
-                            user.put("phone",phone);
-                            user.put("about",about);
+                            DocumentReference documentReference = mStore.collection("User").document(mAuth.getCurrentUser().getUid());
+
+                            User user = new User(fullname,phone,about,"",new ArrayList<String>(),new ArrayList<String>());
                             documentReference.set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void unused) {
                                     Log.d("Tag","onSuccess: User profile is created ");
+                                    startActivity(intent);
                                 }
                             });
-                            startActivity(intent);
+                            UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+                                    .setDisplayName(fullname)
+                                    .build();
+                            mAuth.getCurrentUser().updateProfile(profileUpdates).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    if (task.isSuccessful()) {
+                                        Log.d("adding name", "User profile updated.");
+                                    }
+                                }
+                            });
+
                         } else {
                             // If sign in fails, display a message to the user.
                             // Log.w(TAG, "createUserWithEmail:failure", task.getException());

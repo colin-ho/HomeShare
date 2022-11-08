@@ -43,7 +43,6 @@ public class CreateAccountActivity extends AppCompatActivity {
     private Button createAccountButton;
     private FirebaseAuth mAuth;
     private FirebaseFirestore mStore;
-    private ImageView profilePic;
     String userID;
     EditText mFullName, mEmail, mPassword, mAbout,mPhone;
     StorageReference storageReference;
@@ -63,16 +62,6 @@ public class CreateAccountActivity extends AppCompatActivity {
         mEmail = findViewById(R.id.createAccountEmailAddress);
         mPassword = findViewById(R.id.createAccountPassword);
         mAbout = findViewById(R.id.createAccountAbout);
-        profilePic = findViewById(R.id.profilePic);
-
-        profilePic.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view){
-                Intent openGalleryIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                startActivityForResult(openGalleryIntent,1000);
-            }
-        });
-
 
         backToLoginButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -93,35 +82,6 @@ public class CreateAccountActivity extends AppCompatActivity {
                 String confirmPassword = String.valueOf(((EditText) findViewById(R.id.createAccountConfirmPassword)).getText());
                 String phone = String.valueOf(((EditText) findViewById(R.id.createAccountPhone)).getText());
                 createAccount(email, password, confirmPassword,about,fullname,phone);
-            }
-        });
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode==1000){
-            if(resultCode== Activity.RESULT_OK){
-                Uri imageUri = data.getData();
-                profilePic.setImageURI(imageUri);
-                uploadImageToFireBase(imageUri);
-            }
-
-        }
-    }
-
-    private void uploadImageToFireBase(Uri imageUri) {
-        final String randomKey = UUID.randomUUID().toString();
-        StorageReference fileRef = storageReference.child("images/"+randomKey);
-        fileRef.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-            @Override
-            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                Toast.makeText(CreateAccountActivity.this, "Image Uploaded", Toast.LENGTH_SHORT).show();
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Toast.makeText(CreateAccountActivity.this, "Failed", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -147,8 +107,8 @@ public class CreateAccountActivity extends AppCompatActivity {
                             // Log.d(TAG, "createUserWithEmail:success");
                             Intent intent = new Intent(getApplicationContext(),HomeActivity.class);
                             DocumentReference documentReference = mStore.collection("User").document(mAuth.getCurrentUser().getUid());
-
-                            User user = new User(fullname,phone,about,"",new ArrayList<String>(),new ArrayList<String>());
+                            String profilepic = "images/"+mAuth.getCurrentUser().getUid()+"/profile.jpg";
+                            User user = new User(fullname,phone,about,profilepic,new ArrayList<String>(),new ArrayList<String>());
                             documentReference.set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void unused) {

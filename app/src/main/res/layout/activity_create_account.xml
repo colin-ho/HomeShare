@@ -117,14 +117,4 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageView
-        android:id="@+id/profilePic"
-        android:layout_width="92dp"
-        android:layout_height="67dp"
-        tools:layout_editor_absoluteX="159dp"
-        tools:layout_editor_absoluteY="514dp"
-        tools:srcCompat="@tools:sample/avatars"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -58,17 +58,6 @@ public class HomeFragment extends Fragment {
             }
         });
 
-        Button logoutButton = view.findViewById(R.id.logoutButton);
-        logoutButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                FirebaseAuth.getInstance().signOut();
-                System.out.println("logging out");
-                Intent intent = new Intent(getContext(),MainActivity.class);
-                startActivity(intent);
-            }
-        });
-
         return view;
     }
 

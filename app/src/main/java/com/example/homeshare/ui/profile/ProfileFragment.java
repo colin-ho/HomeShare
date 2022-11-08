@@ -1,5 +1,6 @@
 package com.example.homeshare.ui.profile;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -20,11 +21,13 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 
 import com.example.homeshare.HomeActivity;
+import com.example.homeshare.MainActivity;
 import com.example.homeshare.R;
 import com.example.homeshare.databinding.FragmentProfileBinding;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Tasks;
@@ -68,13 +71,16 @@ public class ProfileFragment extends Fragment {
             }
         });
 
-
-//        name.setText(((HomeActivity)getActivity()).getDb().collection("User").document(UID)
-//                .get().getResult().getData().get("fullName").toString());
-//        phone.setText(((HomeActivity)getActivity()).getDb().collection("User")
-//                .document(UID).get().getResult().getData().get("contactNumber").toString());
-//        description.setText(((HomeActivity)getActivity()).getDb().collection("User")
-//                .document(UID).get().getResult().getData().get("about").toString());
+        Button logoutButton = view.findViewById(R.id.logoutProfileButton);
+        logoutButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FirebaseAuth.getInstance().signOut();
+                System.out.println("logging out");
+                Intent intent = new Intent(getContext(), MainActivity.class);
+                startActivity(intent);
+            }
+        });
 
         return view;
     }

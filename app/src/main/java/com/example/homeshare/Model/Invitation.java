@@ -1,29 +1,68 @@
 package com.example.homeshare.Model;
 
 import java.sql.Timestamp;
+import java.util.Map;
 
 public class Invitation {
 
-    private Timestamp deadline;
-    private Number creatorUserID;
-    private Number invitationID;
-    private String location;
-    private Number noOfBeds;
-    private Number price;
-    private String open;
-    private String[] utilities;
+    private String name;
+    private String beds;
+    private String creatorUserID;
     private String description;
+    private String location;
+    private String day;
+    private String month;
+    private String year;
+    private String price;
+    private Map<String, Object> utilities;
+    private String invitationID;
 
-    public Invitation(Timestamp deadline, Number creatorUserID, Number invitationID, String description, String location, Number noOfBeds, Number price, String open, String[] utilities) {
-        this.deadline = deadline;
+    public Invitation() {
+    }
+
+    public Invitation(String name, String beds, String creatorUserID, String description, String location, String day, String month, String year, String price, Map<String, Object> utilities) {
+        this.name = name;
+        this.beds = beds;
         this.creatorUserID = creatorUserID;
-        this.invitationID = invitationID;
+        this.description = description;
         this.location = location;
-        this.noOfBeds = noOfBeds;
+        this.day = day;
+        this.month = month;
+        this.year = year;
         this.price = price;
-        this.open = open;
         this.utilities = utilities;
-        this.description  = description;
+    }
+
+    public String getInvitationID() {
+        return invitationID;
+    }
+
+    public void setInvitationID(String invitationID) {
+        this.invitationID = invitationID;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getBeds() {
+        return beds;
+    }
+
+    public void setBeds(String beds) {
+        this.beds = beds;
+    }
+
+    public String getCreatorUserID() {
+        return creatorUserID;
+    }
+
+    public void setCreatorUserID(String creatorUserID) {
+        this.creatorUserID = creatorUserID;
     }
 
     public String getDescription() {
@@ -34,30 +73,6 @@ public class Invitation {
         this.description = description;
     }
 
-    public Timestamp getDeadline() {
-        return deadline;
-    }
-
-    public void setDeadline(Timestamp deadline) {
-        this.deadline = deadline;
-    }
-
-    public Number getCreatorUserID() {
-        return creatorUserID;
-    }
-
-    public void setCreatorUserID(Number creatorUserID) {
-        this.creatorUserID = creatorUserID;
-    }
-
-    public Number getInvitationID() {
-        return invitationID;
-    }
-
-    public void setInvitationID(Number invitationID) {
-        this.invitationID = invitationID;
-    }
-
     public String getLocation() {
         return location;
     }
@@ -66,35 +81,59 @@ public class Invitation {
         this.location = location;
     }
 
-    public Number getNoOfBeds() {
-        return noOfBeds;
+    public String getDay() {
+        return day;
     }
 
-    public void setNoOfBeds(Number noOfBeds) {
-        this.noOfBeds = noOfBeds;
+    public void setDay(String day) {
+        this.day = day;
     }
 
-    public Number getPrice() {
+    public String getMonth() {
+        return month;
+    }
+
+    public void setMonth(String month) {
+        this.month = month;
+    }
+
+    public String getYear() {
+        return year;
+    }
+
+    public void setYear(String year) {
+        this.year = year;
+    }
+
+    public String getPrice() {
         return price;
     }
 
-    public void setPrice(Number price) {
+    public void setPrice(String price) {
         this.price = price;
     }
 
-    public String getOpen() {
-        return open;
-    }
-
-    public void setOpen(String open) {
-        this.open = open;
-    }
-
-    public String[] getUtilities() {
+    public Map<String, Object> getUtilities() {
         return utilities;
     }
 
-    public void setUtilities(String[] utilities) {
+    public void setUtilities(Map<String, Object> utilities) {
         this.utilities = utilities;
+    }
+
+    @Override
+    public String toString() {
+        return "Invitation{" +
+                "name='" + name + '\'' +
+                ", beds='" + beds + '\'' +
+                ", creatorUserID='" + creatorUserID + '\'' +
+                ", description='" + description + '\'' +
+                ", location='" + location + '\'' +
+                ", day='" + day + '\'' +
+                ", month='" + month + '\'' +
+                ", year='" + year + '\'' +
+                ", price='" + price + '\'' +
+                ", utilities=" + utilities +
+                '}';
     }
 }

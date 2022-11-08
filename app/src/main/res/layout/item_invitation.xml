@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/border"
+    >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="20dp">
+
+        <TextView
+            android:id="@+id/invitationItemName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Name"/>
+
+        <TextView
+            android:id="@+id/invitationItemLocation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Location"
+            android:layout_toRightOf="@id/invitationItemPrice"
+            android:layout_marginLeft="50dp"
+             />
+
+        <TextView
+            android:id="@+id/invitationItemPrice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Price"
+            android:layout_toRightOf="@id/invitationItemName"
+            android:layout_marginLeft="50dp"/>
+
+        <TextView
+            android:id="@+id/invitationItemDescription"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Description"
+            android:layout_alignTop="@id/invitationItemName"
+            android:layout_marginTop="50dp" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Message"
+            android:id="@+id/invitationItemMessage"
+            android:layout_alignTop="@id/invitationItemDeadline"
+            android:layout_marginTop="50dp"/>
+
+        <Button
+            android:id="@+id/invitationItemAccept"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Accept"
+            android:layout_alignTop="@id/invitationItemMessage"
+            android:layout_marginTop="50dp"
+            />
+
+        <Button
+            android:id="@+id/invitationItemReject"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Reject"
+            android:layout_alignBaseline="@id/invitationItemAccept"
+            android:layout_toRightOf="@id/invitationItemAccept"
+            android:layout_marginLeft="50dp"/>
+
+        <TextView
+            android:id="@+id/invitationItemDeadline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Deadline"
+            android:layout_alignTop="@id/invitationItemDescription"
+            android:layout_marginTop="50dp" />
+
+        <TextView
+            android:id="@+id/invitationItemUtilities"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Utilities"
+            android:layout_alignBaseline="@id/invitationItemDeadline"
+            android:layout_toRightOf="@id/invitationItemDeadline"
+            android:layout_marginLeft="50dp"
+             />
+
+    </RelativeLayout>
+
+</androidx.cardview.widget.CardView>

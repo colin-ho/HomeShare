@@ -20,12 +20,19 @@ import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.homeshare.CreateAccountActivity;
 import com.example.homeshare.HomeActivity;
+import com.example.homeshare.Model.Invitation;
 import com.example.homeshare.R;
 import com.example.homeshare.databinding.FragmentCreateInvitationBinding;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -35,14 +42,9 @@ public class CreateInvitationFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        CreateInvitationViewModel createInvitationViewModel =
-                new ViewModelProvider(this).get(CreateInvitationViewModel.class);
 
         binding = FragmentCreateInvitationBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
-
-        // final TextView textView = binding.textCreateInvitations;
-        // createInvitationViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
 
         return root;
     }
@@ -54,36 +56,30 @@ public class CreateInvitationFragment extends Fragment {
         createButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                EditText location = (EditText) getView().findViewById(R.id.createInvitationLocation);
-                EditText description = (EditText) getView().findViewById(R.id.createInvitationDescription);
-                EditText day = (EditText) getView().findViewById(R.id.createInvitationDay);
-                EditText month = (EditText) getView().findViewById(R.id.createInvitationMonth);
-                EditText year = (EditText) getView().findViewById(R.id.createInvitationYear);
-                EditText price = (EditText) getView().findViewById(R.id.createInvitationPrice);
-                EditText beds = (EditText) getView().findViewById(R.id.createInvitationBeds);
+                String location = ((EditText) getView().findViewById(R.id.createInvitationLocation)).getText().toString();
+                String description = ((EditText) getView().findViewById(R.id.createInvitationDescription)).getText().toString();
+                String day = ((EditText) getView().findViewById(R.id.createInvitationDay)).getText().toString();
+                String month = ((EditText) getView().findViewById(R.id.createInvitationMonth)).getText().toString();
+                String year = ((EditText) getView().findViewById(R.id.createInvitationYear)).getText().toString();
+                String price = ((EditText) getView().findViewById(R.id.createInvitationPrice)).getText().toString();
+                String beds = ((EditText) getView().findViewById(R.id.createInvitationBeds)).getText().toString();
 
                 CheckBox gas = (CheckBox) getView().findViewById(R.id.checkBoxGas);
                 CheckBox wifi = (CheckBox) getView().findViewById(R.id.checkBoxWifi);
                 CheckBox water = (CheckBox) getView().findViewById(R.id.checkBoxWater);
                 CheckBox electricity = (CheckBox) getView().findViewById(R.id.checkBoxElectricity);
 
-                Map<String, Object> invitation = new HashMap<>();
-                invitation.put("location", location.getText().toString());
-                invitation.put("description", description.getText().toString());
-                invitation.put("day", day.getText().toString());
-                invitation.put("month", month.getText().toString());
-                invitation.put("year", year.getText().toString());
-                invitation.put("price", price.getText().toString());
-                invitation.put("beds", beds.getText().toString());
+                String creatorUserID = ((HomeActivity)getActivity()).getmAuth().getCurrentUser().getUid();
+                String name = ((HomeActivity)getActivity()).getUser().getFullName();
 
                 Map<String, Object> utilities = new HashMap<>();
                 utilities.put("gas", gas.isChecked());
                 utilities.put("wifi", wifi.isChecked());
                 utilities.put("water", water.isChecked());
                 utilities.put("electricity", electricity.isChecked());
-                invitation.put("utilities",utilities);
+                Invitation invitation = new Invitation(name,beds,creatorUserID,description,location,day,month,year,price,utilities);
 
-                invitation.put("creatorUserID",((HomeActivity)getActivity()).getmAuth().getCurrentUser().getUid());
+                System.out.println(invitation.toString());
                 // Add a new document with a generated ID
                 ((HomeActivity)getActivity()).getDb().collection("Invitation")
                         .add(invitation)
@@ -104,8 +100,6 @@ public class CreateInvitationFragment extends Fragment {
                         });
             }
         });
-
-
     }
 
     @Override

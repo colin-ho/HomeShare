@@ -51,24 +51,19 @@ public class InvitationsAdapter extends RecyclerView.Adapter<InvitationsAdapter.
         this.user = user;
     }
 
-    public InvitationsAdapter(Context context, FirebaseFirestore db, FirebaseAuth auth) {
+    public InvitationsAdapter(Context context, FirebaseFirestore db, FirebaseAuth auth,User user) {
         this.context = context;
         this.db = db;
         this.mAuth = auth;
-        db.collection("User").document(auth.getCurrentUser().getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if(task.isSuccessful()){
-                    DocumentSnapshot documentSnapshot = task.getResult();
-                    if(documentSnapshot !=null){
-                        setUser(documentSnapshot.toObject(User.class));
-                    }
-                }
-            }
-        });
+        this.user = user;
     }
 
     public InvitationsAdapter() {
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return position;
     }
 
     @NonNull
@@ -98,19 +93,23 @@ public class InvitationsAdapter extends RecyclerView.Adapter<InvitationsAdapter.
         holder.utilities.setText("Utilities: "+utilitiesString.toString());
 
         if (user.getRejectedInvitations().contains(invitation.getInvitationID())){
-            holder.rejectButton.setEnabled(false);
-            holder.acceptButton.setVisibility(View.INVISIBLE);
-            holder.rejectButton.setText("Invitation Rejected!");
-        }
-
-        if (user.getAcceptedInvitations().contains(invitation.getInvitationID())){
-            holder.rejectButton.setVisibility(View.INVISIBLE);
+            holder.rejectButton.setVisibility(View.GONE);
             holder.acceptButton.setEnabled(false);
             holder.acceptButton.setText("Invitation Accepted!");
         }
 
+        if (user.getAcceptedInvitations().contains(invitation.getInvitationID())){
+            holder.rejectButton.setVisibility(View.GONE);
+            holder.acceptButton.setEnabled(false);
+            holder.acceptButton.setText("Invitation Accepted!");
+        }
+
+        if (invitation.getCreatorUserID().equals(mAuth.getUid())){
+            holder.name.setText("My invitation");
+        }
+
         if (invitation.getRoommates()==0){
-            holder.rejectButton.setVisibility(View.INVISIBLE);
+            holder.rejectButton.setVisibility(View.GONE);
             holder.acceptButton.setEnabled(false);
             holder.acceptButton.setText("Spots filled");
         }
@@ -125,7 +124,7 @@ public class InvitationsAdapter extends RecyclerView.Adapter<InvitationsAdapter.
                 }
                 String message = holder.message.getText().toString();
                 acceptInvitation(view,message, invitation.getInvitationID(),invitation.getCreatorUserID());
-                holder.rejectButton.setVisibility(View.INVISIBLE);
+                holder.rejectButton.setVisibility(View.GONE);
                 holder.acceptButton.setEnabled(false);
                 holder.acceptButton.setText("Invitation Accepted!");
             }
@@ -140,9 +139,9 @@ public class InvitationsAdapter extends RecyclerView.Adapter<InvitationsAdapter.
                     return;
                 }
                 rejectInvitation(view, invitation.getInvitationID());
-                holder.rejectButton.setEnabled(false);
-                holder.acceptButton.setVisibility(View.INVISIBLE);
-                holder.rejectButton.setText("Invitation Rejected!");
+                holder.rejectButton.setVisibility(View.GONE);
+                holder.acceptButton.setEnabled(false);
+                holder.acceptButton.setText("Invitation Rejected!");
             }
         });
     }

@@ -21,12 +21,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.homeshare.HomeActivity;
 import com.example.homeshare.MainActivity;
 import com.example.homeshare.Model.Invitation;
+import com.example.homeshare.Model.User;
 import com.example.homeshare.R;
 import com.example.homeshare.adapters.InvitationsAdapter;
 import com.example.homeshare.databinding.FragmentHomeBinding;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
@@ -39,13 +41,22 @@ public class HomeFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
-        RecyclerView recyclerView = view.findViewById(R.id.feedRecyclerView);
-        InvitationsAdapter adapter = new InvitationsAdapter(getContext()
-                ,((HomeActivity)getActivity()).getDb(),((HomeActivity)getActivity()).getmAuth());
-        recyclerView.setAdapter(adapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        showInvitationsFromFirebase(adapter);
+        ((HomeActivity)getActivity()).getDb().collection("User").document(((HomeActivity)getActivity()).getmAuth().getCurrentUser().getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if(task.isSuccessful()){
+                    DocumentSnapshot documentSnapshot = task.getResult();
+                    RecyclerView recyclerView = view.findViewById(R.id.feedRecyclerView);
+                    InvitationsAdapter adapter = new InvitationsAdapter(getContext()
+                            ,((HomeActivity)getActivity()).getDb(),((HomeActivity)getActivity()).getmAuth(),documentSnapshot.toObject(User.class));
+                    recyclerView.setAdapter(adapter);
+                    recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
+                    showInvitationsFromFirebase(adapter);
+                }
+            }
+        });
 
         Button logoutButton = view.findViewById(R.id.logoutButton);
         logoutButton.setOnClickListener(new View.OnClickListener() {

@@ -16,11 +16,16 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.homeshare.Model.Invitation;
 import com.example.homeshare.Model.Response;
 import com.example.homeshare.R;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 
@@ -35,6 +40,11 @@ public class ResponsesAdapter extends RecyclerView.Adapter<ResponsesAdapter.View
         this.mAuth= mAuth;
         this.db = db;
 
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return position;
     }
 
     public ResponsesAdapter() {
@@ -59,6 +69,7 @@ public class ResponsesAdapter extends RecyclerView.Adapter<ResponsesAdapter.View
         if (response.getResponderUserID().equals(mAuth.getUid())){
             holder.acceptButton.setVisibility(View.GONE);
             holder.rejectButton.setVisibility(View.GONE);
+            holder.name.setText("My response");
             holder.status.setVisibility(View.VISIBLE);
             holder.status.setText("Status: "+response.getStatus().toString());
         } else{
@@ -117,7 +128,7 @@ public class ResponsesAdapter extends RecyclerView.Adapter<ResponsesAdapter.View
                             @Override
                             public void onSuccess(Void aVoid) {
                                 Log.d("Decrementing Roommates", "DocumentSnapshot successfully updated!");
-
+                                checkInvitationFull(response.getInvitationID());
                             }
                         })
                         .addOnFailureListener(new OnFailureListener() {
@@ -130,6 +141,71 @@ public class ResponsesAdapter extends RecyclerView.Adapter<ResponsesAdapter.View
                 holder.rejectButton.setVisibility(View.INVISIBLE);
                 holder.acceptButton.setText("Response accepted!");
             }
+        });
+    }
+
+    public void checkInvitationFull(String invitationID){
+        db.collection("Invitation").document(invitationID).get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (task.isSuccessful()) {
+                            DocumentSnapshot document = task.getResult();
+                            if (document.exists()) {
+                                Log.d("Check invitation", "DocumentSnapshot data: " + document.getData());
+                                System.out.println(document.getData().toString());
+                                if (Integer.parseInt(document.getData().get("roommates").toString()) <= (Integer.valueOf(0))){
+                                    getResponsesToDelete(invitationID);
+                                }
+                            } else {
+                                Log.d("Check invitation", "No such document");
+                            }
+                        } else {
+                            Log.d("Check invitation", "get failed with ", task.getException());
+                        }
+                    }
+                });
+    }
+
+    public void getResponsesToDelete(String invitationID){
+
+        db.collection("Response").whereEqualTo("invitationID",invitationID).get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            ArrayList<String> toDelete = new ArrayList<String>();
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                Log.d("Getting responses to delete", document.getId() + " => " + document.getData());
+                                System.out.println(document.getData().get("status"));
+                                if (!document.getData().get("status").equals("accepted")){
+                                    toDelete.add(document.getId());
+                                }
+                            }
+                            deleteResponses(toDelete);
+                        } else {
+                            Log.d("Getting responses to delete", "Error getting documents: ", task.getException());
+                        }
+                    }
+                });
+    }
+
+    public void deleteResponses(ArrayList<String> toDelete){
+        System.out.println(toDelete.toString());
+        toDelete.forEach((item)->{
+            db.collection("Response").document(item).delete()
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            Log.d("deleting", "DocumentSnapshot"+item+"successfully deleted!");
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Log.w("deleting", "Error deleting document", e);
+                        }
+                    });
         });
     }
 

@@ -43,6 +43,16 @@
             android:layout_alignTop="@id/invitationItemName"
             android:layout_marginTop="50dp" />
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/invitationItemSpots"
+            android:layout_toRightOf="@id/invitationItemDescription"
+            android:layout_alignTop="@id/invitationItemDescription"
+            android:layout_marginLeft="50dp"
+            android:text="Spots"
+            />
+
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/border"
+    >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="20dp">
+
+        <TextView
+            android:id="@+id/responseItemName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Name"/>
+
+
+
+        <TextView
+            android:id="@+id/responseItemMessage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Message"
+            android:layout_alignTop="@id/responseItemName"
+            android:layout_marginTop="50dp" />
+
+        <TextView
+            android:id="@+id/responseItemStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Status"
+            android:visibility="invisible"
+            android:layout_toRightOf="@id/responseItemMessage"
+            android:layout_alignTop="@id/responseItemMessage"
+            android:layout_marginLeft="50dp" />
+
+        <Button
+            android:id="@+id/responseItemAccept"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Accept"
+            android:layout_alignTop="@id/responseItemMessage"
+            android:layout_marginTop="50dp"
+            />
+
+        <Button
+            android:id="@+id/responseItemReject"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Reject"
+            android:layout_alignBaseline="@id/responseItemAccept"
+            android:layout_toRightOf="@id/responseItemAccept"
+            android:layout_marginLeft="50dp"/>
+
+
+        <TextView
+            android:id="@+id/responseItemDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Date"
+            android:layout_toRightOf="@id/responseItemName"
+            android:layout_marginLeft="50dp"
+            />
+
+    </RelativeLayout>
+
+</androidx.cardview.widget.CardView>

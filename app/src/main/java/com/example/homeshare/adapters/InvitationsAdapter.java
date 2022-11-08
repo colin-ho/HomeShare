@@ -33,6 +33,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class InvitationsAdapter extends RecyclerView.Adapter<InvitationsAdapter.ViewHolder> {
 
@@ -87,6 +88,7 @@ public class InvitationsAdapter extends RecyclerView.Adapter<InvitationsAdapter.
         holder.deadline.setText("Deadline: "+invitation.getDay()+"/"+invitation.getMonth()+"/"+invitation.getYear());
         holder.price.setText("Price: "+invitation.getPrice());
         holder.description.setText("Description: "+invitation.getDescription());
+        holder.spots.setText("Spots left: "+invitation.getRoommates());
         StringBuilder utilitiesString = new StringBuilder();
         invitation.getUtilities().forEach((k,v)->{
             if (v.equals(true)){
@@ -105,6 +107,12 @@ public class InvitationsAdapter extends RecyclerView.Adapter<InvitationsAdapter.
             holder.rejectButton.setVisibility(View.INVISIBLE);
             holder.acceptButton.setEnabled(false);
             holder.acceptButton.setText("Invitation Accepted!");
+        }
+
+        if (invitation.getRoommates()==0){
+            holder.rejectButton.setVisibility(View.INVISIBLE);
+            holder.acceptButton.setEnabled(false);
+            holder.acceptButton.setText("Spots filled");
         }
 
         holder.acceptButton.setOnClickListener(new View.OnClickListener() {
@@ -140,7 +148,7 @@ public class InvitationsAdapter extends RecyclerView.Adapter<InvitationsAdapter.
     }
 
     public void acceptInvitation(View view, String message,String invitationID,String creatorUserID){
-        Response response = new Response(message,new Timestamp(System.currentTimeMillis()),invitationID,false,mAuth.getCurrentUser().getUid(),mAuth.getCurrentUser().getDisplayName(),creatorUserID);
+        Response response = new Response(message,new Date(),invitationID,"pending",mAuth.getCurrentUser().getUid(),mAuth.getCurrentUser().getDisplayName(),creatorUserID);
         db.collection("Response").add(response)
                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                     @Override
@@ -206,9 +214,10 @@ public class InvitationsAdapter extends RecyclerView.Adapter<InvitationsAdapter.
         private TextView description;
         private TextView deadline;
         private TextView utilities;
+        private TextView spots;
         private Button acceptButton;
         private Button rejectButton;
-        private EditText message;
+        private TextView message;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -222,6 +231,7 @@ public class InvitationsAdapter extends RecyclerView.Adapter<InvitationsAdapter.
             acceptButton = (Button) itemView.findViewById(R.id.invitationItemAccept);
             rejectButton = (Button) itemView.findViewById(R.id.invitationItemReject);
             message = (EditText) itemView.findViewById(R.id.invitationItemMessage);
+            spots = (TextView) itemView.findViewById(R.id.invitationItemSpots);
         }
     }
 }

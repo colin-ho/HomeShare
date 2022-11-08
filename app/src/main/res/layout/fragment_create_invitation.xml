@@ -46,13 +46,13 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/createInvitationBeds"
+        android:id="@+id/createInvitationRoommates"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="204dp"
         android:ems="10"
-        android:inputType="text"
-        android:hint="Number of Beds"
+        android:inputType="number"
+        android:hint="Number of Roommate Spots"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"

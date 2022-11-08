@@ -27,7 +27,6 @@ public class HomeActivity extends AppCompatActivity{
 
     private ActivityHomeBinding binding;
     private FirebaseFirestore db;
-    private Button logoutButton;
     private FirebaseAuth mAuth;
     private User user;
 
@@ -69,17 +68,6 @@ public class HomeActivity extends AppCompatActivity{
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(binding.navView, navController);
 
-
-        logoutButton = findViewById(R.id.logoutButton);
-        logoutButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                FirebaseAuth.getInstance().signOut();
-                System.out.println("logging out");
-                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                startActivity(intent);
-            }
-        });
     }
 
     public void getUserFromFirebase(){

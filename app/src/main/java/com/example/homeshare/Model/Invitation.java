@@ -6,7 +6,6 @@ import java.util.Map;
 public class Invitation {
 
     private String name;
-    private String beds;
     private String creatorUserID;
     private String description;
     private String location;
@@ -14,15 +13,15 @@ public class Invitation {
     private String month;
     private String year;
     private String price;
+    private int roommates;
     private Map<String, Object> utilities;
     private String invitationID;
 
     public Invitation() {
     }
 
-    public Invitation(String name, String beds, String creatorUserID, String description, String location, String day, String month, String year, String price, Map<String, Object> utilities) {
+    public Invitation(String name, String creatorUserID, String description, String location, String day, String month, String year, String price, int roommates, Map<String, Object> utilities) {
         this.name = name;
-        this.beds = beds;
         this.creatorUserID = creatorUserID;
         this.description = description;
         this.location = location;
@@ -30,15 +29,8 @@ public class Invitation {
         this.month = month;
         this.year = year;
         this.price = price;
+        this.roommates = roommates;
         this.utilities = utilities;
-    }
-
-    public String getInvitationID() {
-        return invitationID;
-    }
-
-    public void setInvitationID(String invitationID) {
-        this.invitationID = invitationID;
     }
 
     public String getName() {
@@ -47,14 +39,6 @@ public class Invitation {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getBeds() {
-        return beds;
-    }
-
-    public void setBeds(String beds) {
-        this.beds = beds;
     }
 
     public String getCreatorUserID() {
@@ -113,6 +97,14 @@ public class Invitation {
         this.price = price;
     }
 
+    public int getRoommates() {
+        return roommates;
+    }
+
+    public void setRoommates(int roommates) {
+        this.roommates = roommates;
+    }
+
     public Map<String, Object> getUtilities() {
         return utilities;
     }
@@ -121,11 +113,18 @@ public class Invitation {
         this.utilities = utilities;
     }
 
+    public String getInvitationID() {
+        return invitationID;
+    }
+
+    public void setInvitationID(String invitationID) {
+        this.invitationID = invitationID;
+    }
+
     @Override
     public String toString() {
         return "Invitation{" +
                 "name='" + name + '\'' +
-                ", beds='" + beds + '\'' +
                 ", creatorUserID='" + creatorUserID + '\'' +
                 ", description='" + description + '\'' +
                 ", location='" + location + '\'' +
@@ -133,7 +132,9 @@ public class Invitation {
                 ", month='" + month + '\'' +
                 ", year='" + year + '\'' +
                 ", price='" + price + '\'' +
+                ", roommates=" + roommates +
                 ", utilities=" + utilities +
+                ", invitationID='" + invitationID + '\'' +
                 '}';
     }
 }

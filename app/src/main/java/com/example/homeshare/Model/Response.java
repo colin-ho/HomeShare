@@ -1,28 +1,38 @@
 package com.example.homeshare.Model;
 
 import java.sql.Timestamp;
+import java.util.Date;
 
 public class Response {
 
     private String responseMessage;
-    private Timestamp date;
+    private Date date;
     private String invitationID;
-    private Boolean isAccepted;
+    private String status;
     private String responderUserID;
     private String responderName;
     private String invitationCreatorUserID;
+    private String responseID;
 
     public Response(){
 
     }
-    public Response(String responseMessage, Timestamp date, String invitationID, Boolean isAccepted, String responderUserID, String responderName,String invitationCreatorUserID) {
+    public Response(String responseMessage, Date date, String invitationID, String status, String responderUserID, String responderName, String invitationCreatorUserID) {
         this.responseMessage = responseMessage;
         this.date = date;
         this.invitationID = invitationID;
-        this.isAccepted = isAccepted;
+        this.status = status;
         this.responderUserID = responderUserID;
         this.responderName = responderName;
         this.invitationCreatorUserID = invitationCreatorUserID;
+    }
+
+    public String getResponseID() {
+        return responseID;
+    }
+
+    public void setResponseID(String responseID) {
+        this.responseID = responseID;
     }
 
     public String getInvitationCreatorUserID() {
@@ -49,11 +59,11 @@ public class Response {
         this.responseMessage = responseMessage;
     }
 
-    public Timestamp getDate() {
+    public Date getDate() {
         return date;
     }
 
-    public void setDate(Timestamp date) {
+    public void setDate(Date date) {
         this.date = date;
     }
 
@@ -65,12 +75,12 @@ public class Response {
         this.invitationID = invitationID;
     }
 
-    public Boolean getAccepted() {
-        return isAccepted;
+    public String getStatus() {
+        return status;
     }
 
-    public void setAccepted(Boolean accepted) {
-        isAccepted = accepted;
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public String getResponderUserID() {
@@ -79,5 +89,19 @@ public class Response {
 
     public void setResponderUserID(String responderUserID) {
         this.responderUserID = responderUserID;
+    }
+
+    @Override
+    public String toString() {
+        return "Response{" +
+                "responseMessage='" + responseMessage + '\'' +
+                ", date=" + date +
+                ", invitationID='" + invitationID + '\'' +
+                ", status='" + status + '\'' +
+                ", responderUserID='" + responderUserID + '\'' +
+                ", responderName='" + responderName + '\'' +
+                ", invitationCreatorUserID='" + invitationCreatorUserID + '\'' +
+                ", responseID='" + responseID + '\'' +
+                '}';
     }
 }

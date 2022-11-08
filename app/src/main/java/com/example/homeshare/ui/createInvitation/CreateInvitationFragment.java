@@ -62,7 +62,7 @@ public class CreateInvitationFragment extends Fragment {
                 String month = ((EditText) getView().findViewById(R.id.createInvitationMonth)).getText().toString();
                 String year = ((EditText) getView().findViewById(R.id.createInvitationYear)).getText().toString();
                 String price = ((EditText) getView().findViewById(R.id.createInvitationPrice)).getText().toString();
-                String beds = ((EditText) getView().findViewById(R.id.createInvitationBeds)).getText().toString();
+                int roommates = Integer.parseInt(((EditText) getView().findViewById(R.id.createInvitationRoommates)).getText().toString());
 
                 CheckBox gas = (CheckBox) getView().findViewById(R.id.checkBoxGas);
                 CheckBox wifi = (CheckBox) getView().findViewById(R.id.checkBoxWifi);
@@ -77,7 +77,7 @@ public class CreateInvitationFragment extends Fragment {
                 utilities.put("wifi", wifi.isChecked());
                 utilities.put("water", water.isChecked());
                 utilities.put("electricity", electricity.isChecked());
-                Invitation invitation = new Invitation(name,beds,creatorUserID,description,location,day,month,year,price,utilities);
+                Invitation invitation = new Invitation(name,creatorUserID,description,location,day,month,year,price,roommates,utilities);
 
                 System.out.println(invitation.toString());
                 // Add a new document with a generated ID

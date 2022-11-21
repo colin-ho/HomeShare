@@ -17,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.homeshare.Model.User;
+import com.example.homeshare.utils.CreateInvitationUtils;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -29,6 +30,7 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.example.homeshare.utils.CreateAccountUtils;
 import com.google.firebase.storage.UploadTask;
 
 import java.net.URI;
@@ -81,6 +83,13 @@ public class CreateAccountActivity extends AppCompatActivity {
                 String password = String.valueOf(((EditText) findViewById(R.id.createAccountPassword)).getText());
                 String confirmPassword = String.valueOf(((EditText) findViewById(R.id.createAccountConfirmPassword)).getText());
                 String phone = String.valueOf(((EditText) findViewById(R.id.createAccountPhone)).getText());
+
+                String errorMessage = CreateAccountUtils.validateInputFields(fullname, about, email, password, confirmPassword, phone);
+                if (!errorMessage.isEmpty()) {
+                    Toast.makeText(getActivity(), errorMessage,
+                            Toast.LENGTH_LONG).show();
+                    return;
+                }
                 createAccount(email, password, confirmPassword,about,fullname,phone);
             }
         });

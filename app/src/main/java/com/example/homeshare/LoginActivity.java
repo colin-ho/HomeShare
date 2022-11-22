@@ -11,6 +11,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.homeshare.utils.CreateAccountUtils;
+import com.example.homeshare.utils.LoginUtils;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -45,7 +47,12 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View view) {
                 String email = String.valueOf(((EditText) findViewById(R.id.loginEmailAddress)).getText());
                 String password = String.valueOf(((EditText) findViewById(R.id.loginPassword)).getText());
-
+                String errorMessage = LoginUtils.validateInputFields(email, password);
+                if (!errorMessage.isEmpty()) {
+                    Toast.makeText(LoginActivity.this, errorMessage,
+                            Toast.LENGTH_LONG).show();
+                    return;
+                }
                 login(email,password);
             }
         });

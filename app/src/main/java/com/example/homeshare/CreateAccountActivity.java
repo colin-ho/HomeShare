@@ -86,7 +86,7 @@ public class CreateAccountActivity extends AppCompatActivity {
 
                 String errorMessage = CreateAccountUtils.validateInputFields(fullname, about, email, password, confirmPassword, phone);
                 if (!errorMessage.isEmpty()) {
-                    Toast.makeText(getActivity(), errorMessage,
+                    Toast.makeText(CreateAccountActivity.this, errorMessage,
                             Toast.LENGTH_LONG).show();
                     return;
                 }

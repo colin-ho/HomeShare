@@ -41,22 +41,25 @@ public class HomeFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
+        if (((HomeActivity)getActivity()) != null){
+            ((HomeActivity)getActivity()).getDb().collection("User").document(((HomeActivity)getActivity()).getmAuth().getCurrentUser().getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                    if(task.isSuccessful()){
+                        DocumentSnapshot documentSnapshot = task.getResult();
+                        RecyclerView recyclerView = view.findViewById(R.id.feedRecyclerView);
+                        if (((HomeActivity)getActivity()) != null) {
+                            InvitationsAdapter adapter = new InvitationsAdapter(getContext()
+                                    , ((HomeActivity) getActivity()).getDb(), ((HomeActivity) getActivity()).getmAuth(), documentSnapshot.toObject(User.class));
+                            recyclerView.setAdapter(adapter);
+                            recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        ((HomeActivity)getActivity()).getDb().collection("User").document(((HomeActivity)getActivity()).getmAuth().getCurrentUser().getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if(task.isSuccessful()){
-                    DocumentSnapshot documentSnapshot = task.getResult();
-                    RecyclerView recyclerView = view.findViewById(R.id.feedRecyclerView);
-                    InvitationsAdapter adapter = new InvitationsAdapter(getContext()
-                            ,((HomeActivity)getActivity()).getDb(),((HomeActivity)getActivity()).getmAuth(),documentSnapshot.toObject(User.class));
-                    recyclerView.setAdapter(adapter);
-                    recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-
-                    showInvitationsFromFirebase(adapter);
+                            showInvitationsFromFirebase(adapter);
+                        }
+                    }
                 }
-            }
-        });
+            });
+        }
 
         return view;
     }

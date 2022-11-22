@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    tools:context=".ui.responses.ResponsesFragment">
+    tools:context=".ui.responses.ResponsesFragment"
+    android:id="@+id/fragment_responses">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/responsesRecyclerView"

@@ -44,6 +44,9 @@ public class ResponsesFragment extends Fragment {
     }
 
     public void showResponsesFromFirebase(ResponsesAdapter adapter){
+        if (((HomeActivity)getActivity()).getmAuth().getCurrentUser() == null){
+            return;
+        }
         ArrayList<Response> responses = new ArrayList<>();
 
         ((HomeActivity)getActivity()).getDb().collection("Response").whereEqualTo("invitationCreatorUserID",

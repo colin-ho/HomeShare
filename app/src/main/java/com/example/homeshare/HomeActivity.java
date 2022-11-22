@@ -53,7 +53,9 @@ public class HomeActivity extends AppCompatActivity{
         db = FirebaseFirestore.getInstance();
         mAuth = FirebaseAuth.getInstance();
 
-        getUserFromFirebase();
+        if (mAuth.getCurrentUser() != null) {
+            getUserFromFirebase();
+        }
 
         binding = ActivityHomeBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());

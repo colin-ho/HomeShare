@@ -73,6 +73,16 @@ public class CreateAccountActivityTest {
         Thread.sleep(5000);
     }
 
+    @Test
+    public void TestCreateAccountPasswordsDontMatch() throws InterruptedException {
+        fillall();
+        onView(withId(R.id.createAccountPassword)).perform(ViewActions.replaceText("password"),closeSoftKeyboard());
+        onView(withId(R.id.createAccountConfirmPassword)).perform(ViewActions.replaceText("confirm"),closeSoftKeyboard());
+        onView(withId(R.id.createAccountButton)).perform(ViewActions.click());
+        onView(withText("Passwords must match")).inRoot(new ToastMatcher()).check(matches(isDisplayed()));
+        Thread.sleep(5000);
+    }
+
     public void fillall() {
         onView(withId(R.id.createAccountEmailAddress)).perform(ViewActions.replaceText("test@gmail.com"));
         onView(withId(R.id.createAccountPassword)).perform(ViewActions.replaceText("password"));

@@ -6,10 +6,14 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -32,14 +36,48 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.Locale;
 
 public class HomeFragment extends Fragment {
+
+    private boolean firstLoad = true;
+    InvitationsAdapter invitationsAdapter;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_home, container, false);
+
+        Spinner spinner = (Spinner) view.findViewById(R.id.sort_spinner);
+// Create an ArrayAdapter using the string array and a default spinner layout
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(),
+                R.array.sort_array, android.R.layout.simple_spinner_item);
+// Specify the layout to use when the list of choices appears
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+// Apply the adapter to the spinner
+        spinner.setAdapter(adapter);
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Toast.makeText(getActivity().getBaseContext(), parent.getItemAtPosition(position) + " selected", Toast.LENGTH_SHORT).show();
+                if (firstLoad){
+                    firstLoad = false;
+                    return;
+                }
+                showInvitationsFromFirebase(invitationsAdapter,parent.getItemAtPosition(position).toString());
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
 
         if (((HomeActivity)getActivity()) != null){
             ((HomeActivity)getActivity()).getDb().collection("User").document(((HomeActivity)getActivity()).getmAuth().getCurrentUser().getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -54,7 +92,7 @@ public class HomeFragment extends Fragment {
                             recyclerView.setAdapter(adapter);
                             recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-                            showInvitationsFromFirebase(adapter);
+                            showInvitationsFromFirebase(adapter,"Most Recent Deadline");
                         }
                     }
                 }
@@ -64,7 +102,8 @@ public class HomeFragment extends Fragment {
         return view;
     }
 
-    public void showInvitationsFromFirebase(InvitationsAdapter adapter){
+    public void showInvitationsFromFirebase(InvitationsAdapter adapter,String sort){
+        this.invitationsAdapter = adapter;
         ArrayList<Invitation> invitations = new ArrayList<>();
 
         ((HomeActivity)getActivity()).getDb().collection("Invitation")
@@ -79,6 +118,9 @@ public class HomeFragment extends Fragment {
                                 invitation.setInvitationID(document.getId());
                                 invitations.add(invitation);
                             }
+                            if (!sort.equals("")){
+                                sortInvitations(invitations,sort);
+                            }
                             adapter.setInvitations(invitations);
                         } else {
                             Log.d("Get Invitations", "Error getting documents: ", task.getException());
@@ -86,6 +128,77 @@ public class HomeFragment extends Fragment {
                     }
                 });
     }
+
+    public void sortInvitations(ArrayList<Invitation> invitations,String sort){
+        if (sort.equals("Most Recent Deadline")){
+            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH);
+            invitations.sort((invitation1,invitation2) -> {
+                Date date1 = null;
+                try {
+                    date1 = formatter.parse(invitation1.getDay()+"-"+invitation1.getMonth()+"-"+invitation1.getYear());
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                Date date2 = null;
+                try {
+                    date2 = formatter.parse(invitation2.getDay()+"-"+invitation2.getMonth()+"-"+invitation2.getYear());
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                return date1.compareTo(date2);
+            });
+        }
+        else if (sort.equals("Least Recent Deadline")){
+            SimpleDateFormat formatter = new SimpleDateFormat("dd-M-yyyy", Locale.ENGLISH);
+            invitations.sort((invitation1,invitation2) -> {
+                Date date1 = null;
+                try {
+                    date1 = formatter.parse(invitation1.getDay()+"-"+invitation1.getMonth()+"-"+invitation1.getYear());
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                Date date2 = null;
+                try {
+                    date2 = formatter.parse(invitation2.getDay()+"-"+invitation2.getMonth()+"-"+invitation2.getYear());
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                return date2.compareTo(date1);
+            });
+        }
+        else if (sort.equals("Most Expensive")){
+            invitations.sort((invitation1,invitation2) -> {
+                if (Integer.parseInt(invitation1.getPrice()) > Integer.parseInt(invitation2.getPrice())) return -1;
+                return 1;
+            });
+        }
+        else if (sort.equals("Least Expensive")){
+            invitations.sort((invitation1,invitation2) -> {
+                if (Integer.parseInt(invitation1.getPrice()) > Integer.parseInt(invitation2.getPrice())) return 1;
+                return -1;
+            });
+        }
+        else if (sort.equals("Most Spots Available")){
+            invitations.sort((invitation1,invitation2) -> {
+                if (invitation1.getRoommates() > invitation2.getRoommates()) return -1;
+                return 1;
+            });
+        }
+        else if (sort.equals("Least Expensive")){
+            invitations.sort((invitation1,invitation2) -> {
+                if (invitation1.getRoommates() > invitation2.getRoommates()) return 1;
+                return -1;
+            });
+        }
+        else if (sort.equals("Closest to USC")){
+            invitations.sort(Comparator.comparing(Invitation::getLocation));
+        }
+        else if (sort.equals("Farthest from USC")){
+            invitations.sort(Comparator.comparing(Invitation::getLocation).reversed());
+        }
+
+    }
+
 
     @Override
     public void onDestroyView() {

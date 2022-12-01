@@ -5,4 +5,14 @@
     <string name="title_responses">Responses</string>
     <string name="title_profile">Profile</string>
     <string name="title_create_invitation">Create Invitation</string>
+    <string-array name="sort_array">
+        <item>Most Recent Deadline</item>
+        <item>Least Recent Deadline</item>
+        <item>Most Expensive</item>
+        <item>Least Expensive</item>
+        <item>Most Spots Available</item>
+        <item>Least Spots Available</item>
+        <item>Closest to USC</item>
+        <item>Farthest from USC</item>
+    </string-array>
 </resources>

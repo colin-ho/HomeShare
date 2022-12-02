@@ -61,6 +61,7 @@ public class ResponsesAdapter extends RecyclerView.Adapter<ResponsesAdapter.View
 
     @Override
     public void onBindViewHolder(@NonNull ResponsesAdapter.ViewHolder holder, int position) {
+        Log.d("old sahi test", "test");
         Response response = responses.get(position);
         holder.name.setText("Name: "+response.getResponderName());
         holder.message.setText("Message: "+response.getResponseMessage());

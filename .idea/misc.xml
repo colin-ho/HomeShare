@@ -3,8 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Users/wilso/AndroidStudioProjects/HomeShare/app/src/main/res/layout/activity_login.xml" value="0.31657608695652173" />
-        <entry key="..\:/Users/wilso/AndroidStudioProjects/HomeShare/app/src/main/res/layout/fragment_profile.xml" value="0.31657608695652173" />
+        <entry key="../../../../layout/custom_preview.xml" value="0.1" />
         <entry key="app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/ic_baseline_access_time_24.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/ic_baseline_account_box_24.xml" value="0.1" />
@@ -29,7 +28,10 @@
         <entry key="app/src/main/res/layout/fragment_login.xml" value="0.15625" />
         <entry key="app/src/main/res/layout/fragment_notifications.xml" value="0.10190217391304347" />
         <entry key="app/src/main/res/layout/fragment_profile.xml" value="0.29488677978515626" />
-        <entry key="app/src/main/res/layout/fragment_responses.xml" value="0.15476190476190477" />
+        <entry key="app/src/main/res/layout/fragment_responses.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/item_invitation.xml" value="0.192481884057971" />
+        <entry key="app/src/main/res/layout/item_notification.xml" value="0.192481884057971" />
+        <entry key="app/src/main/res/layout/item_response.xml" value="0.18297101449275363" />
         <entry key="app/src/main/res/layout/login.xml" value="0.18305053710937502" />
         <entry key="app/src/main/res/layout/profile_page.xml" value="0.10190217391304347" />
         <entry key="app/src/main/res/menu/bottom_nav_menu.xml" value="0.1" />

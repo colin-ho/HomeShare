@@ -21,6 +21,9 @@
         android:icon="@drawable/person"
         android:title="@string/title_profile" />
 
-
+    <item
+        android:id="@+id/navigation_notifications"
+        android:icon="@drawable/ic_baseline_notifications_24"
+        android:title="@string/title_notifications" />
 
 </menu>
